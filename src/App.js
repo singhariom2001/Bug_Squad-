@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout'; // Adjust the path if needed
+import Licenses from './components/Licenses'; // Adjust path as necessary
+import LicenseModal from './components/LicenseModal'; // The new page for modal
+import Concurrency from './components/Concurrency';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Licenses />} />
+          <Route path="/license/new" element={<LicenseModal />} />
+          <Route path="/license/edit/:id" element={<LicenseModal />} /> 
+          <Route path="/concurrency" element={<Concurrency />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 
