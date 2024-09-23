@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Bundle Schema
+// Bundle Schema hari-aman
 const bundleSchema = new mongoose.Schema({
   id: {
     type: Number,
@@ -27,10 +27,7 @@ const bundleSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
     },
-    Concurrencylimit: {
-      type: String,
-      required: true, 
-    },
+
   }],
 });
 
