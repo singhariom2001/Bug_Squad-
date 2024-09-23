@@ -93,9 +93,9 @@ const LicenseModal = ({ license, onSave, onClose }) => {
           </div>
           <div className="bundle-status">
             <span className="status available">Available: 2</span>
-            <span className="status forthcoming">Forthcoming: 0</span>
+            {/* <span className="status forthcoming">Forthcoming: 0</span>
             <span className="status invalid">Invalid: 0</span>
-            <a href="#">View Titles</a>
+            <a href="#">View Titles</a> */}
           </div>
         </div>
  

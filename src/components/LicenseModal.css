@@ -26,7 +26,7 @@ body {
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
-    background-color: #00cc99;
+    background-color:#249dad;
     cursor: pointer;
     font-weight: bold;
   }
@@ -43,6 +43,7 @@ body {
   }
    
   label {
+    border: solid;
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
