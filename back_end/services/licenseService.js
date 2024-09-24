@@ -1,6 +1,6 @@
 
-const License = require('../models/License'); 
-const Bundle = require('../models/Bundle'); 
+const License = require('../models/licenseSchema'); 
+const Bundle = require('../models/bundleSchema'); 
 
 async function createLicense(LicenseId, LicenseName, concurrency, books, bundleId, isPaid) {
     console.log("books",books)
@@ -48,6 +48,21 @@ async function createLicense(LicenseId, LicenseName, concurrency, books, bundleI
     return license;
 }
 
+async function getLicenses(licenseName) {
+    console.log("heelo")
+    const licenses = await License.find({ LicenseName: licenseName});
+    console.log(licenseName);
+
+    return licenses;
+}
+
+async function getLicensesDetails(licenseId) {
+    const licenses = await License.findOne({ LicenseId: licenseId});
+    console.log("license",licenses);
+    const books = licenses.Books;
+    console.log("books",books);
+    return books;
+}
 module.exports = {
-    createLicense
+    createLicense,getLicenses,getLicensesDetails
 };
