@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import MOCK_DATA from '../MOCK_DATA.json';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Licenses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [licensesPerPage] = useState(10);
-  const [selectedLicense, setSelectedLicense] = useState(null);
   const [licenses, setLicenses] = useState(MOCK_DATA);
+  const [showOptionsIndex, setShowOptionsIndex] = useState(null); // State for showing options
   const navigate = useNavigate(); // Initialize navigate
+  const optionsRef = useRef(null); // Ref for the options dropdown
 
   // Calculate index range for pagination
   const indexOfLastLicense = currentPage * licensesPerPage;
@@ -19,7 +20,6 @@ const Licenses = () => {
 
   // Function to handle creating a new license or editing an existing one
   const handleCreateOrEdit = (license = null) => {
-    setSelectedLicense(license); // Set the selected license to edit, or null for new
     if (license) {
       // If editing an existing license, navigate to the edit route with the license ID
       navigate(`/license/edit/${license.Order_no}`);
@@ -32,6 +32,7 @@ const Licenses = () => {
   // Delete a license based on Order_no
   const handleDelete = (orderNo) => {
     setLicenses(prevLicenses => prevLicenses.filter(license => license.Order_no !== orderNo));
+    setShowOptionsIndex(null); // Close the options after delete
   };
 
   // Handle pagination
@@ -39,9 +40,32 @@ const Licenses = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleToggleOptions = (index) => {
+    setShowOptionsIndex(showOptionsIndex === index ? null : index);
+  };
+
+  // Close dropdown if clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+        setShowOptionsIndex(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Navigate to view license details
+  const handleViewLicense = (orderNo) => {
+    navigate(`/license/view/${orderNo}`);
+  };
+
   return (
     <div className="p-6">
-      <h2 className="text-2xl mb-4 font-semibold">Licenses</h2>
+      <h2 className="text-2xl mt-[-70px] mb-[7px] ml-[10px] font-semibold">Licenses</h2>
       <button 
         onClick={() => handleCreateOrEdit()} 
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -51,31 +75,52 @@ const Licenses = () => {
       <table className="min-w-full mt-4 bg-white border border-gray-200 rounded-lg shadow-md">
         <thead className="bg-gray-100">
           <tr>
-            <th className="py-3 px-4 border-b text-left text-sm font-medium text-gray-700">Order No</th>
-            <th className="py-3 px-4 border-b text-left text-sm font-medium text-gray-700">License Name</th>
-            <th className="py-3 px-4 border-b text-left text-sm font-medium text-gray-700">Status</th>
-            <th className="py-3 px-4 border-b text-left text-sm font-medium text-gray-700">Actions</th>
+            <th className="py-3 px-4 border-b text-left text-sm font-large text-gray-700">Order No</th>
+            <th className="py-3 px-4 border-b text-left text-sm font-large text-gray-700">License Name</th>
+            <th className="py-3 px-4 border-b text-left text-sm font-large text-gray-700">Status</th>
+            <th className="py-3 px-4 border-b text-left text-sm font-large text-gray-700">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {currentLicenses.map((license) => (
+          {currentLicenses.map((license, index) => (
             <tr key={license.Order_no} className="hover:bg-gray-50">
               <td className="py-2 px-4 border-b text-sm text-gray-900">{license.Order_no}</td>
-              <td className="py-2 px-4 border-b text-sm text-gray-900">{license.license_name}</td>
-              <td className="py-2 px-4 border-b text-sm text-gray-900">{license.status}</td>
               <td className="py-2 px-4 border-b text-sm text-gray-900">
                 <button 
-                  onClick={() => handleCreateOrEdit(license)} 
-                  className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600"
+                  onClick={() => handleViewLicense(license.Order_no)} 
+                  className="text-blue-500 hover:underline"
                 >
-                  Edit
+                  {license.license_name}
                 </button>
-                <button 
-                  onClick={() => handleDelete(license.Order_no)} 
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                >
-                  Delete
-                </button>
+              </td>
+              <td className="py-2 px-4 border-b text-sm text-gray-900">{license.status}</td>
+              <td className="py-2 px-4 border-b text-sm text-gray-900">
+                <div className="relative inline-block text-left">
+                  <button 
+                    onClick={() => handleToggleOptions(index)} 
+                    className="focus:outline-none"
+                  >
+                    •••
+                  </button>
+                  {showOptionsIndex === index && (
+                    <div ref={optionsRef} className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                      <div className="py-1">
+                        <button 
+                          onClick={() => handleCreateOrEdit(license)} 
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(license.Order_no)} 
+                          className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-100 w-full"
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </td>
             </tr>
           ))}
