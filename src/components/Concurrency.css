@@ -51,12 +51,15 @@
    
   .data-table th,
   .data-table td {
+    font-size: small;
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
   }
    
   .data-table th {
+   
+    font-weight:bolder;
     background-color: #f2f2f2;
     color: #333;
   }
@@ -80,7 +83,7 @@
   /* Save Button */
   .save-btn {
     display: block;
-    width: 100%;
+    width: 10%;
     padding: 10px;
     background-color: #28a745;
     color: white;
@@ -91,6 +94,7 @@
     font-size: 16px;
     transition: background-color 0.3s ease;
     margin-top: 20px;
+    margin-left: 700px;
   }
    
   .save-btn:hover {
