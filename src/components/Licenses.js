@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import MOCK_DATA from '../MOCK_DATA.json';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
+
 
 const Licenses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [licensesPerPage] = useState(10);
   const [licenses, setLicenses] = useState(MOCK_DATA);
-  const [showOptionsIndex, setShowOptionsIndex] = useState(null); // State for showing options
-  const navigate = useNavigate(); // Initialize navigate
-  const optionsRef = useRef(null); // Ref for the options dropdown
+  const [showOptionsIndex, setShowOptionsIndex] = useState(null); 
+  const navigate = useNavigate(); 
+  const optionsRef = useRef(null); 
 
-  // Calculate index range for pagination
+ 
   const indexOfLastLicense = currentPage * licensesPerPage;
   const indexOfFirstLicense = indexOfLastLicense - licensesPerPage;
   const currentLicenses = licenses.slice(indexOfFirstLicense, indexOfLastLicense);
@@ -58,10 +59,10 @@ const Licenses = () => {
     };
   }, []);
 
-  // Navigate to view license details
-  const handleViewLicense = (orderNo) => {
-    navigate(`/license/view/${orderNo}`);
-  };
+
+const handleViewLicense = (orderNo) => {
+  navigate(`/license/${orderNo}/books`); // Update the route to include books page
+};
 
   return (
     <div className="p-6">
