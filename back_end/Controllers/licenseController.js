@@ -25,11 +25,11 @@ exports.getLicenses = async (req, res) => {
 };
 
 exports.getLicensesDetails = async (req, res) => {
-    const {LicenseId}=req.body;
-    console.log("LicenseId",LicenseId);
+    const {LicenseId,isPaid}=req.body;
+   
     try {
-        const licenses = await licenseService.getLicensesDetails(LicenseId);
-        console.log("Licenses",licenses);
+        const licenses = await licenseService.getLicensesDetails(LicenseId,isPaid);
+     
         res.status(201).json(licenses);
     } catch (err) {
         res.status(500).json({ message: err.message });
