@@ -12,9 +12,25 @@ exports.createLicense = async (req, res) => {
 };
 
 exports.getLicenses = async (req, res) => {
+    const {LicenseName}=req.body;
+    console.log("body",req.body);
     try {
-        const licenses = await License.find();
-        res.json(licenses);
+        const licenses = await licenseService.getLicenses(LicenseName);
+        console.log(1);
+        console.log(LicenseName);
+        res.status(201).json(licenses);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.getLicensesDetails = async (req, res) => {
+    const {LicenseId}=req.body;
+    console.log("LicenseId",LicenseId);
+    try {
+        const licenses = await licenseService.getLicensesDetails(LicenseId);
+        console.log("Licenses",licenses);
+        res.status(201).json(licenses);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
