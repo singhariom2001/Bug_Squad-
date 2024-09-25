@@ -1,39 +1,15 @@
 import React, { useState } from 'react';
 import './Concurrency.css';
+import BasicModal from './Modal';
 
 const Concurrency = () => {
   // Hardcoded books data
   const books = [
-    {
-      bookTitle: "The Great Gatsby",
-      isbn: "978-0743273565",
-      publishedStatus: "Published",
-      
-    },
-    {
-      bookTitle: "To Kill a Mockingbird",
-      isbn: "978-0061120084",
-      publishedStatus: "Published",
-     
-    },
-    {
-      bookTitle: "1984",
-      isbn: "978-0451524935",
-      publishedStatus: "Published",
-    
-    },
-    {
-      bookTitle: "The Catcher in the Rye",
-      isbn: "978-0316769488",
-      publishedStatus: "Published",
-    
-    },
-    {
-      bookTitle: "Unpublished Novel",
-      isbn: "123-4567890123",
-      publishedStatus: "Unpublished",
-      Concurrency: 0
-    }
+    { bookTitle: "The Great Gatsby", isbn: "978-0743273565", publishedStatus: "Published" },
+    { bookTitle: "To Kill a Mockingbird", isbn: "978-0061120084", publishedStatus: "Published" },
+    { bookTitle: "1984", isbn: "978-0451524935", publishedStatus: "Published" },
+    { bookTitle: "The Catcher in the Rye", isbn: "978-0316769488", publishedStatus: "Published" },
+    { bookTitle: "Unpublished Novel", isbn: "123-4567890123", publishedStatus: "Unpublished" }
   ];
 
   // Initialize state with books data
@@ -48,12 +24,13 @@ const Concurrency = () => {
   };
 
   // Handle bulk edit
-  const handleBulkEdit = () => {
+  const handleBulkEdit = (value) => {
     const updatedData = data.map(row => ({
       ...row,
-      Concurrency: bulkConcurrency
+      Concurrency: value
     }));
     setData(updatedData);
+    setBulkConcurrency(value); // Update bulkConcurrency state
   };
 
   // Handle save logic
@@ -65,15 +42,8 @@ const Concurrency = () => {
   return (
     <div className="container">
       <h1>View or Edit DRM Policies</h1>
-
       <div className="bulk-edit">
-        <input 
-          type="number"
-          placeholder="Set concurrency for all"
-          value={bulkConcurrency}
-          onChange={e => setBulkConcurrency(e.target.value)}
-        />
-        <button className="bulk-btn" onClick={handleBulkEdit}>Apply to All</button>
+        <BasicModal onBulkEdit={handleBulkEdit} bulkConcurrency={bulkConcurrency} />
       </div>
 
       <table className="data-table">
