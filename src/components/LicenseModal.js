@@ -77,7 +77,7 @@ const LicenseModal = ({ license, onSave, onClose }) => {
  
         {/* Product Bundle Section */}
         <div className="product-bundle-section">
-          <label>Product Bundle*</label>
+          <label>Product Bundle</label>
           <div className="product-bundle-input">
             <input
               type="text"
@@ -87,9 +87,6 @@ const LicenseModal = ({ license, onSave, onClose }) => {
               placeholder=" "
               required
             />
-            <button type="button" className="clear-button">
-              X
-            </button>
           </div>
           <div className="bundle-status">
             <span className="status available">Available: 2</span>
